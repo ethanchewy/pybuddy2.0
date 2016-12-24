@@ -1,15 +1,22 @@
 """TO-DO: Write a description of what this XBlock is."""
 
 import pkg_resources
+import logging
+import urllib
+import json
 
 from xblock.core import XBlock
 from xblock.fields import Scope, String, Dict, Float, Boolean, Integer
 from xblock.fragment import Fragment
+from xblockutils.resources import ResourceLoader
 #from .utils import _, DummyTranslationService, FeedbackMessage, FeedbackMessages, ItemStats, StateMigration, Constants
 from pylint import lint
 from astroid import MANAGER
 from pylint.reporters.text import TextReporter
 from subprocess import Popen, PIPE, STDOUT
+
+LOG = logging.getLogger(__name__)
+RESOURCE_LOADER = ResourceLoader(__name__)
 
 class PythonBuddyXBlock(XBlock):
     """
@@ -98,11 +105,12 @@ class PythonBuddyXBlock(XBlock):
 
 
     # TO-DO: change this view to display your data your own way.
-    def student_view(self, context=None):
+    def student_view(self, context):
         """
         The primary view of the PythonBuddyXBlock, shown to students
         when viewing courses.
         """
+        '''
         html = self.resource_string("static/html/index.html")
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
@@ -122,21 +130,152 @@ class PythonBuddyXBlock(XBlock):
         frag.add_javascript(self.resource_string("static/js/javascript.js"))
         frag.initialize_js('PythonBuddyXBlock')
         return frag
+        '''
+        context = {
+            'fields': self.fields,
+            'self': self,
+            'data': urllib.quote(json.dumps(self.data)),
+        }
+        fragment = Fragment()
+        fragment.add_content(RESOURCE_LOADER.render_template('public/html/index.html', context))
+        css_urls = (
+            'public/css/bootstrap.min.css',
+            'public/css/style.css',
+            'public/codemirror/lib/codemirror.css',
+            'public/codemirror/lib/lint.css',
+            'public/codemirror/addon/dialog.css'
+        )
+        #jquery might have errors since edx also loads jquery 
+        js_urls = (
+            #'public/js/jquery.js',
+            'public/codemirror/lib/codemirror.js',
+            'public/codemirror/lib/python.js',
+            'public/codemirror/lib/lint.js',
+            'public/js/cm-validator-remote.js',
+            'public/codemirror/addon/search.js',
+            'public/codemirror/addon/searchcursor.js',
+            'public/codemirror/addon/dialog.js',
+            'public/js/javascript.js'
+        )
+        for css_url in css_urls:
+            fragment.add_css_url(self.runtime.local_resource_url(self, css_url))
+        for js_url in js_urls:
+            fragment.add_javascript_url(self.runtime.local_resource_url(self, js_url))
 
-    # TO-DO: change this handler to perform your own actions.  You may need more
-    # than one handler, or you may not need any handlers at all.
-    '''
-    @XBlock.json_handler
-    def increment_count(self, data, suffix=''):
-        """
-        An example handler, which increments the data.
-        """
-        # Just to show data coming in...
-        assert data['hello'] == 'world'
+        fragment.initialize_js('PythonBuddyXBlock')
+        return fragment
+    def author_view(self, context):
+        '''
+        html = self.resource_string("static/html/index.html")
+        frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
+        frag.add_css(self.resource_string("static/css/style.css"))
+        frag.add_css(self.resource_string("static/codemirror/lib/codemirror.css"))
+        frag.add_css(self.resource_string("static/codemirror/lib/lint.css"))
+        frag.add_css(self.resource_string("static/codemirror/addon/dialog.css"))
 
-        self.count += 1
-        return {"count": self.count}
-    '''
+        frag.add_javascript(self.resource_string("static/js/jquery.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/lib/codemirror.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/lib/python.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/lib/lint.js"))
+        frag.add_javascript(self.resource_string("static/js/cm-validator-remote.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/addon/search.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/addon/searchcursor.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/addon/dialog.js"))
+        frag.add_javascript(self.resource_string("static/js/javascript.js"))
+        frag.initialize_js('PythonBuddyXBlock')
+        return frag
+        '''
+        context = {
+            'fields': self.fields,
+            'self': self,
+            'data': urllib.quote(json.dumps(self.data)),
+        }
+        fragment = Fragment()
+        fragment.add_content(RESOURCE_LOADER.render_template('public/html/index.html', context))
+        css_urls = (
+            'public/css/bootstrap.min.css',
+            'public/css/style.css',
+            'public/codemirror/lib/codemirror.css',
+            'public/codemirror/lib/lint.css',
+            'public/codemirror/addon/dialog.css'
+        )
+        #jquery might have errors since edx also loads jquery 
+        js_urls = (
+            #'public/js/jquery.js',
+            'public/codemirror/lib/codemirror.js',
+            'public/codemirror/lib/python.js',
+            'public/codemirror/lib/lint.js',
+            'public/js/cm-validator-remote.js',
+            'public/codemirror/addon/search.js',
+            'public/codemirror/addon/searchcursor.js',
+            'public/codemirror/addon/dialog.js',
+            'public/js/javascript.js'
+        )
+        for css_url in css_urls:
+            fragment.add_css_url(self.runtime.local_resource_url(self, css_url))
+        for js_url in js_urls:
+            fragment.add_javascript_url(self.runtime.local_resource_url(self, js_url))
+
+        fragment.initialize_js('PythonBuddyXBlock')
+        return fragment
+
+    def studio_view(self, context):
+        '''
+        html = self.resource_string("static/html/index.html")
+        frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
+        frag.add_css(self.resource_string("static/css/style.css"))
+        frag.add_css(self.resource_string("static/codemirror/lib/codemirror.css"))
+        frag.add_css(self.resource_string("static/codemirror/lib/lint.css"))
+        frag.add_css(self.resource_string("static/codemirror/addon/dialog.css"))
+
+        frag.add_javascript(self.resource_string("static/js/jquery.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/lib/codemirror.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/lib/python.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/lib/lint.js"))
+        frag.add_javascript(self.resource_string("static/js/cm-validator-remote.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/addon/search.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/addon/searchcursor.js"))
+        frag.add_javascript(self.resource_string("static/codemirror/addon/dialog.js"))
+        frag.add_javascript(self.resource_string("static/js/javascript.js"))
+        frag.initialize_js('PythonBuddyXBlock')
+        return frag
+        '''
+        #Code based on xblock drag an drop by the edx-solutions team
+        context = {
+            'fields': self.fields,
+            'self': self,
+            'data': urllib.quote(json.dumps(self.data)),
+        }
+        fragment = Fragment()
+        fragment.add_content(RESOURCE_LOADER.render_template('public/html/index.html', context))
+        css_urls = (
+            'public/css/bootstrap.min.css',
+            'public/css/style.css',
+            'public/codemirror/lib/codemirror.css',
+            'public/codemirror/lib/lint.css',
+            'public/codemirror/addon/dialog.css'
+        )
+        #jquery might have errors since edx also loads jquery 
+        js_urls = (
+            #'public/js/jquery.js',
+            'public/codemirror/lib/codemirror.js',
+            'public/codemirror/lib/python.js',
+            'public/codemirror/lib/lint.js',
+            'public/js/cm-validator-remote.js',
+            'public/codemirror/addon/search.js',
+            'public/codemirror/addon/searchcursor.js',
+            'public/codemirror/addon/dialog.js',
+            'public/js/javascript.js'
+        )
+        for css_url in css_urls:
+            fragment.add_css_url(self.runtime.local_resource_url(self, css_url))
+        for js_url in js_urls:
+            fragment.add_javascript_url(self.runtime.local_resource_url(self, js_url))
+
+        fragment.initialize_js('PythonBuddyXBlock')
+        return fragment
 
     @XBlock.json_handler
     def check_code(self, data, suffix=''):
