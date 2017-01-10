@@ -34,8 +34,8 @@ $(document).ready(function(){
 	            severity: null
 	        }];
 			//console.log(errors);
-			document.getElementById('errorslist').innerHTML = '';
-		   	$('#errorslist').append("<tr>"+"<th>Line</th>"+"<th>Severity</th>"+
+			document.getElementById('errorslist-edit').innerHTML = '';
+		   	$('#errorslist-edit').append("<tr>"+"<th>Line</th>"+"<th>Severity</th>"+
 		   		"<th>Error</th>"+ "<th>More Info</th>"+"</tr>");
 
 			for(var x = 2; x < errors.length; x+=2){
@@ -83,7 +83,7 @@ $(document).ready(function(){
 				//Get help message for each id
 				var moreinfo = getHelp(id);
 				//Append all data to table
-			   	$('#errorslist').append("<tr>"+"<td>" + number + "</td>"
+			   	$('#errorslist-edit').append("<tr>"+"<td>" + number + "</td>"
 			   		+"<td style=\"background-color:"+severity_color+";\"" + 
 			   		">" + severity + "</td>"
 			   		+"<td>" + message + "</td>"
@@ -122,7 +122,7 @@ $(document).ready(function(){
 	    });
 	}
 	
-	var editor = CodeMirror.fromTextArea(document.getElementById("txt"), {
+	var editor = CodeMirror.fromTextArea(document.getElementById("txt-edit"), {
         mode: {name: "python",
                version: 2,
                singleLineStringErrors: false},
@@ -140,7 +140,7 @@ $(document).ready(function(){
     });
 
     //Actually Run in Python 
-	$( "#run",element ).click(function(eventObject) {
+	$( "#run-edit",element ).click(function(eventObject) {
         $.ajax({
             type: "POST",
             url: run_code,
@@ -154,10 +154,52 @@ $(document).ready(function(){
 		console.log("sfd");
 	    
 	    function print_result(data){
-	    	document.getElementById('output').innerHTML = '';
-	    	$("#output").append("<pre>"+data+"</pre>");
+	    	document.getElementById('output-edit').innerHTML = '';
+	    	$("#output-edit").append("<pre>"+data+"</pre>");
 	    }
 	}); 
+
+	function submit(){
+		console.log("start_submitting");
+		var data = {
+		    //'display_name': $element.find('.display-name').val(),
+		    //'mode': $element.find(".problem-mode").val(),
+		    'max_attempts': $(".max-attempts").val(),
+		    //'show_title': $element.find('.show-title').is(':checked'),
+		    'weight': $('.weight').val(),
+		    'problem_data': editor.getValue(),
+		    //'show_problem_header': $element.find('.show-problem-header').is(':checked'),
+		    //'item_background_color': $element.find('.item-background-color').val(),
+		    //'item_text_color': $element.find('.item-text-color').val(),
+		    //'max_items_per_zone': $element.find('.max-items-per-zone').val(),
+		    //'data': _fn.data,
+		};
+		var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
+	    runtime.notify('save', {state: 'start', message: gettext("Saving")});
+	    $.post(handlerUrl, JSON.stringify(data), 'json').done(function(response) {
+	        if (response.result === 'success') {
+	            runtime.notify('save', {state: 'end'});
+	        } else {
+	            var message = response.messages.join(", ");
+	            runtime.notify('error', {
+	                'title': window.gettext("There was an error with your form."),
+	                'message': message
+	            });
+	        }
+		});
+
+	}
+	
+    
+
+	//Cancel current window
+	$('.cancel-button',element).bind('click', function() {
+    	runtime.notify('cancel', {});
+	});
+
+	$('.save-button',element).bind('click',function(){
+		submit();
+	});
 
 });
 function getHelp(id){

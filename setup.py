@@ -36,5 +36,5 @@ setup(
             'pybuddy = pybuddy:PythonBuddyXBlock',
         ]
     },
-    package_data=package_data("pybuddy", ["static", "public"]),
+    package_data=package_data("pybuddy", ["static", "public", "templates"]),
 )

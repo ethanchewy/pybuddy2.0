@@ -1,0 +1,55 @@
+<br>
+<div class="container">
+    <textarea id="txt">
+{{self.problem_data}}
+    </textarea>
+    <br>
+    <button type="button" id="run">Run</button> 
+    <br>
+    <span> Max Attempts: {{self.max_attempts}}</span>
+    <button type="button" id="submit">Submit</button> 
+    <div id="output" >
+        <pre></pre>
+    </div> 
+    <br>
+    <div id="append_text">
+        <h2>Pylint Output Info</h2>
+        <table id="errorslist" style="display: inline-block;">
+            <tr>
+                <th>Line</th>
+                <th>Severity</th>
+                <th>Error</th>
+                <th>More Info</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- OLD CODE FOR MULTIPLE INSTANCESE
+<br>
+<div class="container">
+    <textarea id="txt">
+{{data}}
+    </textarea>
+    <br>
+    <button type="button" id="run-{{id_suffix}}">Run</button> 
+    <br>
+    <span> Max Attempts: {{max_attempts}}</span>
+    <button type="button" id="submit">Submit</button> 
+    <div id="output-{{id_suffix}}" >
+        <pre></pre>
+    </div> 
+    <br>
+    <div id="append_text-{{id_suffix}}">
+        <h2>Pylint Output Info</h2>
+        <table id="errorslist" style="display: inline-block;">
+            <tr>
+                <th>Line</th>
+                <th>Severity</th>
+                <th>Error</th>
+                <th>More Info</th>
+            </tr>
+        </table>
+    </div>
+</div>
+-->

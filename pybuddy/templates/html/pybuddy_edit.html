@@ -1,0 +1,100 @@
+<br>
+<div class="container">
+
+    <textarea id="txt-edit">
+{{fields.problem_data.display_name}}
+    </textarea>
+
+    <br>
+    <button type="button" id="run-edit">Run</button> 
+    <br>
+    <textarea id="max-attempts"> Max Attempts: {{fields.max_attempts.display_name}}</textarea>
+    <br>
+    <textarea id="weight"> Weight: {{fields.weight.display_name}}</textarea>
+    <!--
+    <button type="button" id="submit">Submit</button> 
+    -->
+    <div id="output-edit" >
+        <pre></pre>
+    </div> 
+    <br>
+    <div id="append_text-edit">
+        <h2>Pylint Output Info</h2>
+        <table id="errorslist-edit" style="display: inline-block;">
+            <tr>
+                <th>Line</th>
+                <th>Severity</th>
+                <th>Error</th>
+                <th>More Info</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<br>
+<div class="xblock-actions">
+  <ul class="action-buttons">
+  <!--
+    <li class="action-item">
+      <a href="#" class="button action-primary continue-button">Continue</a>
+    </li>
+-->
+    <li class="action-item">
+      <a href="#" class="button action-primary save-button">Save</a>
+    </li
+
+>        <li class="action-item">
+      <a href="#" class="button cancel-button">Cancel</a>
+    </li>
+  </ul>
+</div>
+<!-- OLD CODE FOR MULTIPLE INSTANCES
+<br>
+<div class="container">
+
+    <textarea id="txt">
+{{data}}
+    </textarea>
+
+    <br>
+    <button type="button" id="run">Run</button> 
+    <br>
+    <span> Max Attempts: {{max_attempts}}</span>
+    <button type="button" id="submit">Submit</button> 
+    <div id="output" >
+        <pre></pre>
+    </div> 
+    <br>
+    <div id="append_text">
+        <h2>Pylint Output Info</h2>
+        <table id="errorslist" style="display: inline-block;">
+            <tr>
+                <th>Line</th>
+                <th>Severity</th>
+                <th>Error</th>
+                <th>More Info</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<br>
+<footer>
+Created by Ethan Chiu. Source Code: <a href="https://github.com/ethanchewy/PythonBuddy">https://github.com/ethanchewy/PythonBuddy</a>
+</footer>
+<div class="xblock-actions">
+  <ul class="action-buttons">
+    <li class="action-item">
+      <a href="#" class="button action-primary continue-button">Continue</a>
+    </li>
+
+    <li class="action-item hidden">
+      <a href="#" class="button action-primary save-button">Save</a>
+    </li
+
+>        <li class="action-item">
+      <a href="#" class="button cancel-button">Cancel</a>
+    </li>
+  </ul>
+</div>
+-->

@@ -1,0 +1,50 @@
+<!--Loaded for the pybuddy_edit.html-->
+<script class="zone-input-tpl" type="text/html">
+    <fieldset class="zone-row" data-uid="{{zone.uid}}">
+        <label>
+            <span>{{"Title"}}</span>
+            <input type="text"
+                   class="zone-title"
+                   value="{{ zone.title }}"
+                   required />
+        </label>
+        <label>
+            <span>{{"Description"}}</span>
+            <input type="text"
+                   class="zone-description"
+                   value="{{ zone.description }}"
+                   aria-describedby="zone-description-description-{{zone.uid}}-{{id_suffix}}"
+                   required />
+            <div id="zone-description-description-{{zone.uid}}-{{id_suffix}}" class="form-help">
+                {{"Description of Python Problem"}}
+            </div>
+        </label>
+        <!--
+        <div class="container" id="">
+            <textarea id="txt-{{id_suffix}}">
+    {{data}}
+            </textarea>
+            <br>
+            <button type="button" id="run-{{id_suffix}}">Run</button> 
+            <br>
+            <span> Max Attempts: {{max_attempts}}</span>
+            <button type="button" id="submit">Submit</button> 
+            <div id="output-{{id_suffix}}" >
+                <pre></pre>
+            </div> 
+            <br>
+            <div id="append_text-{{id_suffix}}">
+                <h2>Pylint Output Info</h2>
+                <table id="errorslist" style="display: inline-block;">
+                    <tr>
+                        <th>Line</th>
+                        <th>Severity</th>
+                        <th>Error</th>
+                        <th>More Info</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        -->
+    </fieldset>
+</script>
